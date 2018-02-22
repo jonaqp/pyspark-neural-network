@@ -24,6 +24,11 @@ from pyspark.sql.functions import udf
 from pyspark.sql.types import StringType, DoubleType
 string_to_float_udf = udf(string_to_float, DoubleType())
 quality_udf = udf(lambda x: condition(x), StringType())
+
+
+df = spark.read.format("com.databricks.spark.csv")\
+    .option("header", "true")\
+    .load("dataset.csv") 
 df= df.withColumn("quality", quality_udf("quality"))
 
 # convert the data to dense vector
